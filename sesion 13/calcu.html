@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        /* Estilos generales */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        
+        /* Contenedor de la calculadora */
+        .calculadora {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 250px;
+        }
+        
+        /* Pantalla de la calculadora */
+        .pantalla {
+            width: 100%;
+            height: 50px;
+            text-align: right;
+            font-size: 2em;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+        }
+        
+        /* Diseño de los botones */
+        .botones {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        /* Estilos para los números (izquierda) */
+        .numeros {
+            display: flex;
+            flex-wrap: wrap;
+            width: 75%;
+        }
+        .numeros input {
+            width: 30%;
+            height: 50px;
+            margin: 5px;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        
+        /* Estilos para los operadores (derecha) */
+        .operadores {
+            display: flex;
+            flex-direction: column;
+            width: 25%;
+        }
+        .operadores button {
+            width: 100%;
+            height: 50px;
+            margin: 5px 0;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculadora">
+        <input type="text" class="pantalla" id="pantalla" disabled>
+        <section class="botones">
+            <div class="numeros">
+                <input type="button" value="7" onclick="agregar('7')">
+                <input type="button" value="8" onclick="agregar('8')">
+                <input type="button" value="9" onclick="agregar('9')">
+                <input type="button" value="4" onclick="agregar('4')">
+                <input type="button" value="5" onclick="agregar('5')">
+                <input type="button" value="6" onclick="agregar('6')">
+                <input type="button" value="1" onclick="agregar('1')">
+                <input type="button" value="2" onclick="agregar('2')">
+                <input type="button" value="3" onclick="agregar('3')">
+                <input type="button" value="0" onclick="agregar('0')">
+                <input type="button" value="." onclick="agregar('.')">
+                <button onclick="calcular()">=</button>
+            </div>
+            <div class="operadores">
+                <button onclick="operar('/')">/</button>
+                <button onclick="operar('*')">*</button>
+                <button onclick="operar('-')">-</button>
+                <button onclick="operar('+')">+</button>
+                <button onclick="limpiar()">C</button>
+            </div>
+        </section>
+    </div>
+    <script>
+        // Obtiene la referencia del campo de la pantalla
+        let pantalla = document.getElementById('pantalla');
+        
+        // Función para agregar números o caracteres a la pantalla
+        function agregar(valor) {
+            pantalla.value += valor;
+        }
+        
+        // Función para agregar operadores matemáticos a la pantalla
+        function operar(op) {
+            pantalla.value += ' ' + op + ' ';
+        }
+        
+        // Función para calcular el resultado de la operación de forma segura
+        function calcular() {
+            try {
+                let expresion = pantalla.value.replace(/[^0-9+\-*/. ]/g, ''); // Filtra caracteres inválidos
+                pantalla.value = new Function('return ' + expresion)(); // Evalúa de forma segura
+            } catch {
+                pantalla.value = 'Error'; // En caso de error, muestra "Error"
+            }
+        }
+        
+        // Función para limpiar la pantalla
+        function limpiar() {
+            pantalla.value = '';
+        }
+    </script>
+</body>
+</html>
